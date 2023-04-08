@@ -15,78 +15,61 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QLabel,
-    QLineEdit, QPushButton, QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QLabel, QLineEdit,
+    QPlainTextEdit, QPushButton, QSizePolicy, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(459, 182)
+        Form.resize(702, 313)
         Form.setLocale(QLocale(QLocale.Portuguese, QLocale.Brazil))
-        self.gridLayout = QGridLayout(Form)
-        self.gridLayout.setObjectName(u"gridLayout")
         self.label = QLabel(Form)
         self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(12, 39, 239, 29))
         font = QFont()
-        font.setPointSize(16)
+        font.setPointSize(24)
         self.label.setFont(font)
-
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-
         self.lineEdit = QLineEdit(Form)
         self.lineEdit.setObjectName(u"lineEdit")
-
-        self.gridLayout.addWidget(self.lineEdit, 0, 1, 1, 1)
-
-        self.label_2 = QLabel(Form)
-        self.label_2.setObjectName(u"label_2")
+        self.lineEdit.setGeometry(QRect(261, 42, 101, 25))
         font1 = QFont()
-        font1.setFamilies([u"Arial"])
-        font1.setPointSize(16)
-        font1.setUnderline(False)
-        font1.setStrikeOut(False)
-        font1.setKerning(True)
-        font1.setStyleStrategy(QFont.PreferDefault)
-        self.label_2.setFont(font1)
-        self.label_2.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_2, 0, 3, 1, 1)
-
-        self.checkBox = QCheckBox(Form)
-        self.checkBox.setObjectName(u"checkBox")
-
-        self.gridLayout.addWidget(self.checkBox, 1, 0, 1, 1)
-
-        self.labelSI = QLabel(Form)
-        self.labelSI.setObjectName(u"labelSI")
-        self.labelSI.setFont(font)
-
-        self.gridLayout.addWidget(self.labelSI, 1, 2, 2, 2)
-
-        self.checkBox_2 = QCheckBox(Form)
-        self.checkBox_2.setObjectName(u"checkBox_2")
-
-        self.gridLayout.addWidget(self.checkBox_2, 2, 0, 1, 2)
-
-        self.label_3 = QLabel(Form)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font1)
-        self.label_3.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_3, 3, 2, 1, 2)
-
-        self.labelSF = QLabel(Form)
-        self.labelSF.setObjectName(u"labelSF")
-        self.labelSF.setFont(font)
-
-        self.gridLayout.addWidget(self.labelSF, 4, 3, 1, 1)
-
+        font1.setPointSize(18)
+        self.lineEdit.setFont(font1)
+        self.lineEdit.setAlignment(Qt.AlignCenter)
+        self.subidaDeEncosta = QCheckBox(Form)
+        self.subidaDeEncosta.setObjectName(u"subidaDeEncosta")
+        self.subidaDeEncosta.setGeometry(QRect(10, 110, 217, 33))
+        self.subidaDeEncosta.setFont(font)
+        self.subidaDeEncostaAlterada = QCheckBox(Form)
+        self.subidaDeEncostaAlterada.setObjectName(u"subidaDeEncostaAlterada")
+        self.subidaDeEncostaAlterada.setGeometry(QRect(10, 181, 306, 33))
+        self.subidaDeEncostaAlterada.setFont(font)
         self.buttonSend = QPushButton(Form)
         self.buttonSend.setObjectName(u"buttonSend")
-
-        self.gridLayout.addWidget(self.buttonSend, 5, 1, 1, 2)
-
+        self.buttonSend.setGeometry(QRect(150, 230, 80, 32))
+        self.label_3 = QLabel(Form)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(500, 40, 102, 32))
+        font2 = QFont()
+        font2.setFamilies([u"Arial"])
+        font2.setPointSize(28)
+        font2.setUnderline(False)
+        font2.setStrikeOut(False)
+        font2.setKerning(True)
+        font2.setStyleStrategy(QFont.PreferDefault)
+        self.label_3.setFont(font2)
+        self.label_3.setAlignment(Qt.AlignCenter)
+        self.solucaoFinal = QPlainTextEdit(Form)
+        self.solucaoFinal.setObjectName(u"solucaoFinal")
+        self.solucaoFinal.setEnabled(False)
+        self.solucaoFinal.setGeometry(QRect(434, 108, 256, 191))
+        font3 = QFont()
+        font3.setPointSize(16)
+        font3.setKerning(True)
+        self.solucaoFinal.setFont(font3)
+        self.solucaoFinal.setStyleSheet(u"color.rgb(255,255,255)")
+        self.solucaoFinal.setBackgroundVisible(True)
 
         self.retranslateUi(Form)
 
@@ -96,12 +79,9 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Caixeiro Viajante", None))
         self.label.setText(QCoreApplication.translate("Form", u"Tamanho do problema:", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"Solu\u00e7\u00e3o Inicial", None))
-        self.checkBox.setText(QCoreApplication.translate("Form", u"Subida de encosta", None))
-        self.labelSI.setText(QCoreApplication.translate("Form", u"saaaaaaaaa", None))
-        self.checkBox_2.setText(QCoreApplication.translate("Form", u"Subida de encosta alterada", None))
-        self.label_3.setText(QCoreApplication.translate("Form", u"Solu\u00e7\u00e3o Final", None))
-        self.labelSF.setText(QCoreApplication.translate("Form", u"saaaaaaaaa", None))
+        self.subidaDeEncosta.setText(QCoreApplication.translate("Form", u"Subida de encosta", None))
+        self.subidaDeEncostaAlterada.setText(QCoreApplication.translate("Form", u"Subida de encosta alterada", None))
         self.buttonSend.setText(QCoreApplication.translate("Form", u"Enviar", None))
+        self.label_3.setText(QCoreApplication.translate("Form", u"Solu\u00e7\u00e3o", None))
     # retranslateUi
 

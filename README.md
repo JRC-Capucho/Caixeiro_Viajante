@@ -5,3 +5,8 @@ instalar pyside6
 pip install pyside6
 ou
 pip3 install pyside6
+
+instalar numpy
+pip install numpy
+ou
+pip3 install numpy
