@@ -40,19 +40,36 @@ class Caixeiro():
     def encosta(self,solucao,matriz1,matriz2,matriz3,valor):
         atual = cp.deepcopy(solucao)
         va = valor
-        tmax = 7
+        
+        while True:
+            novo, vn = self.sucessores_enc(atual,matriz1,matriz2,matriz3,va)
+    
+            if vn>=va:
+                    return atual, va
+            else:
+                atual = novo
+                va = vn
+
+
+    def encosta_alterada(self,solucao,matriz1,matriz2,matriz3,valor):
+        atual = cp.deepcopy(solucao)
+        va = valor
+        tmax = len(atual)
         t = 1
         
         while True:
             novo, vn = self.sucessores_enc(atual,matriz1,matriz2,matriz3,va)
-            
+    
             if vn>=va:
-                if t<tmax:
-                    t += 1
+                #subida de encosta alterada
+                if t>tmax:
+                    return atual, va, t
                 else:
-                    return atual, va
-            atual = novo
-            va = vn
+                    t += 1
+            else:
+                atual = novo
+                va = vn
+                t = 1
 
 
 
@@ -76,3 +93,9 @@ class Caixeiro():
         
         return melhor, vm
 
+
+    # def ganho():
+        # ganho = 100*(vi-vf)/vi
+        # for i in N:
+            # ganho
+        # ganho / N
