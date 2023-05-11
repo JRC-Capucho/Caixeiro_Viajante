@@ -1,4 +1,5 @@
-from random import shuffle, randint, randrange
+from random import shuffle, randint, randrange, uniform
+from math import exp, fabs, log
 import copy as cp
 
 
@@ -37,6 +38,27 @@ class Caixeiro():
 
         return valor
 
+    def gera_temp_inicial(self, n, mat, mat1, P_TS = 15, P_VA = 0.999):
+        s = []
+        v = []
+
+        for i in range(P_TS):
+            s = self.solucao_inicial(n)
+            z = self.avalia_solucao(s, mat, mat1, n)
+            v.append(z)
+
+        dif = 0
+        cont = 0
+
+        for i in range(P_TS-1):
+            for j in range(i+1, P_TS):
+                dif += fabs(v[i]-v[j])
+                cont += 1
+        dif /= cont
+        temp = -dif/log(P_VA)
+
+        return temp
+
     def encosta(self, solucao, matriz1, matriz2, valor):
         atual = cp.deepcopy(solucao)
         va = valor
@@ -50,10 +72,9 @@ class Caixeiro():
                 atual = novo
                 va = vn
 
-    def encosta_alterada(self, solucao, matriz1, matriz2, valor):
+    def encosta_alterada(self, solucao, matriz1, matriz2, valor,tmax):
         atual = cp.deepcopy(solucao)
         va = valor
-        tmax = len(atual)
         t = 1
 
         while True:
@@ -64,7 +85,7 @@ class Caixeiro():
                 if t > tmax:
                     return atual, va, t
                 else:
-                    t += 1
+                   t += 1
             else:
                 atual = novo
                 va = vn
@@ -90,8 +111,41 @@ class Caixeiro():
 
         return melhor, vm
 
-    # def ganho():
-        # ganho = 100*(vi-vf)/vi
-        # for i in N:
-        # ganho
-        # ganho / N
+    def sucessores_temp(self, s,v ,mat, mat1):
+
+        aux = cp.deepcopy(s)
+
+        c1 = randrange(0, len(s))
+        c2 = randrange(0, len(s))
+
+        x = aux[c1]
+        aux[c1] = aux[c2]
+        aux[c2] = x
+
+        v_aux = self.avalia_solucao(aux, mat, mat1, len(s))
+
+        return aux, v_aux
+
+    def tempera(self,s, v, mat, mat1, tempera_inicial, tempera_final, fator_redutor):
+        atual = cp.deepcopy(s)
+        va = v
+        temp = tempera_inicial
+
+        while temp > tempera_final:
+            novo, vn = self.sucessores_temp(atual,va ,  mat, mat1)
+            de = vn - va
+            if de <= 0:
+                atual = novo
+                va = vn
+            else:
+                ale = uniform(0, 1)
+                aux = exp(-de/temp)
+                if ale <= aux:
+                    atual = novo
+                    va = vn
+            temp = temp * fator_redutor
+
+            return atual, va
+
+    def ganho(self,ga):
+        return ganho/tam
