@@ -9,11 +9,18 @@ class Widget(QWidget, Ui_Form):
         self.caixeiro = Caixeiro()
         self.setupUi(self)
         self.buttonSend.clicked.connect(self.clickedButton)
+        self.subidaDeEncostaAlterada.checkState()
+        self.lineTry.setEnabled(False)
+        self.UiComponents()
 
-        if self.subidaDeEncostaAlterada.isChecked():
-            print("ok")
+    def UiComponents(self):
+        self.subidaDeEncostaAlterada.stateChanged.connect(self.allow)
+
+    def allow(self):
+        if not self.subidaDeEncostaAlterada.isChecked():
+            self.lineTry.setEnabled(False)
         else:
-            print("not ok")
+            self.lineTry.setEnabled(True)
 
     def clickedButton(self):
         if self.subidaDeEncosta.isChecked():
@@ -21,31 +28,42 @@ class Widget(QWidget, Ui_Form):
 
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
-            si = self.caixeiro.solucao_inicial(tam)
-            vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
+            ga_aux = 0
 
-            sf, vf = self.caixeiro.encosta(si, matriz_one, matriz_two, vi)
+            for i in range(tam):
+                si = self.caixeiro.solucao_inicial(tam)
+                vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
+
+                sf, vf = self.caixeiro.encosta(si, matriz_one, matriz_two, vi)
+                ga_aux += 100*(vi-vf)/vi
+
+            ga = round(ga_aux / tam,2)
 
             stringFinal = "Solução Inicial\n" + str(si) + "\nValor Inicial\n" + str(
-                vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf)
+                vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf) + "\nGanho Tempo\n" + str(ga)
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta ")
 
         elif self.subidaDeEncostaAlterada.isChecked():
             tam = int(self.lineEdit.text())
             cont_try = int(self.lineTry.text())
-            print(cont_try)
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
+            ga_aux = 0
 
-            si = self.caixeiro.solucao_inicial(tam)
-            vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
+            for i in range(tam):
+                si = self.caixeiro.solucao_inicial(tam)
+                vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
-            sf, vf, t = self.caixeiro.encosta_alterada(
-                si, matriz_one, matriz_two, vi,cont_try)
+                sf, vf, t = self.caixeiro.encosta_alterada(
+                    si, matriz_one, matriz_two, vi,cont_try)
+
+                ga_aux += 100*(vi-vf)/vi
+
+            ga = round(ga_aux/tam,2)
 
             stringFinal = "Solução Inicial\n" + str(si) + "\nValor Inicial\n" + str(
-                vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf)
+                vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf) + "\nGanho Tempo\n" + str(ga)
 
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta alterada")
@@ -53,25 +71,27 @@ class Widget(QWidget, Ui_Form):
         elif self.temperaSimulada.isChecked():
 
             tam = int(self.lineEdit.text())
+            ga_aux = 0
 
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
 
-            si = self.caixeiro.solucao_inicial(tam)
-            vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
+            for i in range(tam):
+                si = self.caixeiro.solucao_inicial(tam)
+                vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
-            temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
+                temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
 
-            sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.001,0.9)
-            ga = self.caixeiro.ganho(vi,vf)
+                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.001,0.9)
+                ga_aux += 100*(vi-vf)/vi
 
+            ga = round(ga_aux/tam,2)
 
             stringFinal = "Solução Inicial\n" + str(si) + "\nValor Inicial\n" + str(
-                vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf) + "\nGanho Temp\n" + str(ga)
+                vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf) + "\nGanho Tempo\n" + str(ga)
 
             self.solucaoFinal.setPlainText(stringFinal)
             print("Tempera Simulada")
-                                           
 
         else:
             tam = int(self.lineEdit.text())
