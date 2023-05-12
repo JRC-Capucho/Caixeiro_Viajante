@@ -147,5 +147,3 @@ class Caixeiro():
 
             return atual, va
 
-    def ganho(self,ga):
-        return ganho/tam
