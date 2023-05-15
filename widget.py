@@ -30,7 +30,7 @@ class Widget(QWidget, Ui_Form):
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             ga_aux = 0
 
-            for i in range(tam):
+           for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
@@ -51,6 +51,10 @@ class Widget(QWidget, Ui_Form):
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             ga_aux = 0
 
+            # cont_try = tam * 0.75
+            # cont_try = tam * 0.5
+            # cont_try = tam * 0.25
+
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
@@ -67,6 +71,7 @@ class Widget(QWidget, Ui_Form):
 
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta alterada")
+            print("tentivas ",cont_try)
 
         if self.temperaSimulada.isChecked():
 
@@ -75,14 +80,14 @@ class Widget(QWidget, Ui_Form):
 
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
+            temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
+
+            #temp =  14189.09
 
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
-
-                temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
-
-                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.01,0.9)
+                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.01,0.85)
                 ga_aux += 100*(vi-vf)/vi
 
             ga = round(ga_aux/tam,2)
@@ -95,8 +100,8 @@ class Widget(QWidget, Ui_Form):
 
         if not any((self.temperaSimulada.isChecked(),self.subidaDeEncosta.isChecked(),self.subidaDeEncostaAlterada.isChecked())):
             tam = int(self.lineEdit.text())
-            matriz_one = self.caixeiro.gera_ambiente(7, 36, tam)
-            matriz_two = self.caixeiro.gera_ambiente(1, 10, tam)
+            matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
+            matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
 
             si = self.caixeiro.solucao_inicial(tam)
             sf = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
