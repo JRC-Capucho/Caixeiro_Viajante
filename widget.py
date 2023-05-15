@@ -44,7 +44,7 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta ")
 
-        elif self.subidaDeEncostaAlterada.isChecked():
+        if self.subidaDeEncostaAlterada.isChecked():
             tam = int(self.lineEdit.text())
             cont_try = int(self.lineTry.text())
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
@@ -68,7 +68,7 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta alterada")
 
-        elif self.temperaSimulada.isChecked():
+        if self.temperaSimulada.isChecked():
 
             tam = int(self.lineEdit.text())
             ga_aux = 0
@@ -82,7 +82,7 @@ class Widget(QWidget, Ui_Form):
 
                 temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
 
-                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.001,0.9)
+                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.01,0.9)
                 ga_aux += 100*(vi-vf)/vi
 
             ga = round(ga_aux/tam,2)
@@ -93,7 +93,7 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print("Tempera Simulada")
 
-        else:
+        if not any((self.temperaSimulada.isChecked(),self.subidaDeEncosta.isChecked(),self.subidaDeEncostaAlterada.isChecked())):
             tam = int(self.lineEdit.text())
             matriz_one = self.caixeiro.gera_ambiente(7, 36, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 10, tam)
@@ -103,5 +103,6 @@ class Widget(QWidget, Ui_Form):
             stringFinal = "Solução Inicial\n" + \
                 str(si) + "\nValor Inicial\n" + str(sf)
             self.solucaoFinal.setPlainText(stringFinal)
+            print('solucao inicial')
 
         print("Clicked Button")
