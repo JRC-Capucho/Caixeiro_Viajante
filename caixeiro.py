@@ -141,7 +141,7 @@ class Caixeiro():
         aux[c1] = aux[c2]
         aux[c2] = x
 
-        v_aux = self.avalia_solucao(aux, mat, mat1, len(s))
+        v_aux = self.avalia_solucao(aux, matriz1, matriz2, len(solucao_inicial))
 
         return aux, v_aux
 
@@ -151,7 +151,8 @@ class Caixeiro():
         temp = tempera_inicial
 
         while temp > tempera_final:
-            novo, vn = self.sucessores_temp(atual,va ,  mat, mat1)
+            print()
+            novo, vn = self.sucessores_temp(atual,mat,mat1)
             de = vn - va
             if de <= 0:
                 atual = novo
@@ -162,6 +163,6 @@ class Caixeiro():
                 if ale <= aux:
                     atual = novo
                     va = vn
-        temp = temp * fator_redutor
+            temp = temp * fator_redutor
 
         return atual, va

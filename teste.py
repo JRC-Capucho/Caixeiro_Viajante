@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QLabel,
-    QLineEdit, QPlainTextEdit, QPushButton, QSizePolicy,
-    QWidget)
+    QLineEdit, QPlainTextEdit, QProgressBar, QPushButton,
+    QSizePolicy, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -106,6 +106,22 @@ class Ui_Form(object):
         self.temperaSimulada.setObjectName(u"temperaSimulada")
         self.temperaSimulada.setGeometry(QRect(10, 270, 311, 41))
         self.temperaSimulada.setFont(font)
+        self.progressBar = QProgressBar(Form)
+        self.progressBar.setObjectName(u"progressBar")
+        self.progressBar.setGeometry(QRect(410, 360, 321, 23))
+        self.progressBar.setStyleSheet(u"QProgressBar {\n"
+" background-color:rgb(200,200,200);\n"
+"color:rgb(170,85,127);\n"
+"border-style:solid;\n"
+"text-align:center;\n"
+"}\n"
+"QProgressBar::chunk{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(0, 97, 53), stop:1 rgba(255, 255, 255, 255));\n"
+"}\n"
+"rgb(0, 97, 53)\n"
+"\n"
+"color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(50, 250, 50, 255), stop:1 rgba(255, 255, 255, 255));")
+        self.progressBar.setValue(100)
 
         self.retranslateUi(Form)
 

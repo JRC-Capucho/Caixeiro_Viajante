@@ -12,6 +12,7 @@ class Widget(QWidget, Ui_Form):
         self.subidaDeEncostaAlterada.checkState()
         self.lineTry.setEnabled(False)
         self.UiComponents()
+        self.progressBar.setValue(0)
 
     def UiComponents(self):
         self.subidaDeEncostaAlterada.stateChanged.connect(self.allow)
@@ -30,12 +31,26 @@ class Widget(QWidget, Ui_Form):
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             ga_aux = 0
 
-           for i in range(tam):
+            # progressBar
+            self.progressBar.setValue(0)
+            progress = 1
+            pb = tam / 100
+
+            for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
                 sf, vf = self.caixeiro.encosta(si, matriz_one, matriz_two, vi)
                 ga_aux += 100*(vi-vf)/vi
+
+                if tam >= 100:
+                    if i % pb == 0:
+                        self.progressBar.setValue(progress)
+                        progress += 1
+                else:
+                    progress = i * (100 / tam)
+                    self.progressBar.setValue(progress)
+
 
             ga = round(ga_aux / tam,2)
 
@@ -44,6 +59,7 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta ")
 
+
         if self.subidaDeEncostaAlterada.isChecked():
             tam = int(self.lineEdit.text())
             cont_try = int(self.lineTry.text())
@@ -51,13 +67,11 @@ class Widget(QWidget, Ui_Form):
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             ga_aux = 0
-            #cont_try = tam * 0.75
-            #cont_try = tam*.5
-            #cont_try = tam*.25
 
-            # cont_try = tam * 0.75
-            # cont_try = tam * 0.5
-            # cont_try = tam * 0.25
+            # progressBar
+            self.progressBar.setValue(0)
+            progress = 1
+            pb = tam / 100
 
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
@@ -68,12 +82,24 @@ class Widget(QWidget, Ui_Form):
 
                 ga_aux += 100*(vi-vf)/vi
 
+                if tam >= 100:
+                    if i % pb == 0:
+                        self.progressBar.setValue(progress)
+                        progress += 1
+                else:
+                    progress = i * (100 / tam)
+                    self.progressBar.setValue(progress)
+
+
+
+
             ga = round(ga_aux/tam,2)
 
             stringFinal = "Solução Inicial\n" + str(si) + "\nValor Inicial\n" + str(
                 vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf) + "\nGanho Tempo\n" + str(ga)
 
             self.solucaoFinal.setPlainText(stringFinal)
+
             print("Subida de encosta alterada")
             print("Contidade de tentativa",cont_try)
 
@@ -86,12 +112,10 @@ class Widget(QWidget, Ui_Form):
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
 
-            #temp =  14189.09
-
-            temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
-
-            print(temp)
-            print(tam)
+            # progressBar
+            self.progressBar.setValue(0)
+            progress = 1
+            pb = tam / 100
 
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
@@ -100,6 +124,15 @@ class Widget(QWidget, Ui_Form):
                 sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.01,0.85)
 
                 ga_aux += 100*(vi-vf)/vi
+
+                if tam >= 100:
+                    if i % pb == 0:
+                        self.progressBar.setValue(progress)
+                        progress += 1
+                else:
+                    progress = i * (100 / tam)
+                    self.progressBar.setValue(progress)
+
 
             ga = round(ga_aux/tam,2)
 
@@ -126,4 +159,5 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print('solucao inicial')
 
+        self.progressBar.setValue(100)
         print("Clicked Button")
