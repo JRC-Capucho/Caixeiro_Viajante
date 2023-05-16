@@ -47,9 +47,13 @@ class Widget(QWidget, Ui_Form):
         elif self.subidaDeEncostaAlterada.isChecked():
             tam = int(self.lineEdit.text())
             cont_try = int(self.lineTry.text())
+
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             ga_aux = 0
+            #cont_try = tam * 0.75
+            #cont_try = tam*.5
+            #cont_try = tam*.25
 
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
@@ -67,6 +71,7 @@ class Widget(QWidget, Ui_Form):
 
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta alterada")
+            print("Contidade de tentativa",cont_try)
 
         elif self.temperaSimulada.isChecked():
 
@@ -76,13 +81,17 @@ class Widget(QWidget, Ui_Form):
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
 
+            temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
+
+            print(temp)
+            print(tam)
+
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
-                temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
 
-                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.001,0.9)
+                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.001,0.95)
                 ga_aux += 100*(vi-vf)/vi
 
             ga = round(ga_aux/tam,2)
@@ -90,18 +99,22 @@ class Widget(QWidget, Ui_Form):
             stringFinal = "Solução Inicial\n" + str(si) + "\nValor Inicial\n" + str(
                 vi) + "\nSolução Final\n" + str(sf) + "\nValor Final\n" + str(vf) + "\nGanho Tempo\n" + str(ga)
 
+            print(temp)
             self.solucaoFinal.setPlainText(stringFinal)
             print("Tempera Simulada")
 
         else:
             tam = int(self.lineEdit.text())
-            matriz_one = self.caixeiro.gera_ambiente(7, 36, tam)
-            matriz_two = self.caixeiro.gera_ambiente(1, 10, tam)
+            matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
+            matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
+            ga_aux = 0
 
             si = self.caixeiro.solucao_inicial(tam)
             sf = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
+
             stringFinal = "Solução Inicial\n" + \
                 str(si) + "\nValor Inicial\n" + str(sf)
+
             self.solucaoFinal.setPlainText(stringFinal)
 
         print("Clicked Button")

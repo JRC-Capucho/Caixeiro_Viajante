@@ -143,7 +143,7 @@ class Caixeiro():
                 if ale <= aux:
                     atual = novo
                     va = vn
-            temp = temp * fator_redutor
+        temp = temp * fator_redutor
 
-            return atual, va
+        return atual, va
 
