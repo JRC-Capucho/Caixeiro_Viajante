@@ -30,7 +30,7 @@ class Widget(QWidget, Ui_Form):
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
             ga_aux = 0
 
-            for i in range(tam):
+           for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
@@ -44,7 +44,7 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print("Subida de encosta ")
 
-        elif self.subidaDeEncostaAlterada.isChecked():
+        if self.subidaDeEncostaAlterada.isChecked():
             tam = int(self.lineEdit.text())
             cont_try = int(self.lineTry.text())
 
@@ -54,6 +54,10 @@ class Widget(QWidget, Ui_Form):
             #cont_try = tam * 0.75
             #cont_try = tam*.5
             #cont_try = tam*.25
+
+            # cont_try = tam * 0.75
+            # cont_try = tam * 0.5
+            # cont_try = tam * 0.25
 
             for i in range(tam):
                 si = self.caixeiro.solucao_inicial(tam)
@@ -73,13 +77,16 @@ class Widget(QWidget, Ui_Form):
             print("Subida de encosta alterada")
             print("Contidade de tentativa",cont_try)
 
-        elif self.temperaSimulada.isChecked():
+        if self.temperaSimulada.isChecked():
 
             tam = int(self.lineEdit.text())
             ga_aux = 0
 
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
+            temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
+
+            #temp =  14189.09
 
             temp = self.caixeiro.gera_temp_inicial(tam,matriz_one,matriz_two)
 
@@ -90,8 +97,8 @@ class Widget(QWidget, Ui_Form):
                 si = self.caixeiro.solucao_inicial(tam)
                 vi = self.caixeiro.avalia_solucao(si, matriz_one, matriz_two, tam)
 
+                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.01,0.85)
 
-                sf, vf = self.caixeiro.tempera(si,vi,matriz_one,matriz_two,temp,0.001,0.95)
                 ga_aux += 100*(vi-vf)/vi
 
             ga = round(ga_aux/tam,2)
@@ -103,10 +110,11 @@ class Widget(QWidget, Ui_Form):
             self.solucaoFinal.setPlainText(stringFinal)
             print("Tempera Simulada")
 
-        else:
+        if not any((self.temperaSimulada.isChecked(),self.subidaDeEncosta.isChecked(),self.subidaDeEncostaAlterada.isChecked())):
             tam = int(self.lineEdit.text())
             matriz_one = self.caixeiro.gera_ambiente(5, 20, tam)
             matriz_two = self.caixeiro.gera_ambiente(1, 5, tam)
+
             ga_aux = 0
 
             si = self.caixeiro.solucao_inicial(tam)
@@ -116,5 +124,6 @@ class Widget(QWidget, Ui_Form):
                 str(si) + "\nValor Inicial\n" + str(sf)
 
             self.solucaoFinal.setPlainText(stringFinal)
+            print('solucao inicial')
 
         print("Clicked Button")
